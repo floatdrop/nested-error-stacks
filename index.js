@@ -2,7 +2,13 @@ var util = require('util');
 
 var NestedError = function (message, nested) {
     Error.call(this);
-    this.nested = nested;
+
+    Object.defineProperty(this, 'nested', {
+		value: nested,
+		writable: true,
+		enumerable: false,
+		configurable: true
+	});
 
     Error.captureStackTrace(this, this.constructor);
 
@@ -33,6 +39,5 @@ var NestedError = function (message, nested) {
 
 util.inherits(NestedError, Error);
 NestedError.prototype.name = 'NestedError';
-
 
 module.exports = NestedError;
